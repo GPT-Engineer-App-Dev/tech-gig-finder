@@ -42,10 +42,11 @@ Comments // table: comments
     content: string
     event_id: number // foreign key to Events
 Profiles // table: profiles
-        id: number
-        created_at: string
-        email: string
-        role: string
+    id: number
+    created_at: string
+    email: string
+    role: string
+*/
 
 // Hooks for Jobs table
 export const useJobs = () => useQuery({
