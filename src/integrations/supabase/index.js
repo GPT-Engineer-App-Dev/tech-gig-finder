@@ -41,6 +41,11 @@ Comments // table: comments
     created_at: string
     content: string
     event_id: number // foreign key to Events
+Profiles // table: profiles
+    id: number
+    created_at: string
+    email: string
+    role: string
 */
 
 // Hooks for Jobs table
