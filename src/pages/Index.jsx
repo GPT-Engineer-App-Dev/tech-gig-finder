@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Container, VStack, Text, Select, Box, Heading, SimpleGrid, Card, CardBody } from "@chakra-ui/react";
-
-const jobs = [
-  { id: 1, title: "Frontend Developer", category: "Engineering" },
-  { id: 2, title: "Product Manager", category: "Product" },
-  { id: 3, title: "UI/UX Designer", category: "Design" },
-  { id: 4, title: "Backend Developer", category: "Engineering" },
-  { id: 5, title: "Product Owner", category: "Product" },
-];
+import { Container, VStack, Text, Select, Heading, SimpleGrid, Card, CardBody } from "@chakra-ui/react";
+import { useJobs } from "../integrations/supabase/index.js";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const { data: jobs, isLoading, error } = useJobs();
 
   const filteredJobs = selectedCategory
-    ? jobs.filter((job) => job.category === selectedCategory)
+    ? jobs.filter((job) => job.job_area === selectedCategory)
     : jobs;
+
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error loading jobs: {error.message}</Text>;
+  }
 
   return (
     <Container maxW="container.lg" py={10}>
@@ -39,8 +41,8 @@ const Index = () => {
             <Link to={`/job/${job.id}`} key={job.id}>
               <Card>
                 <CardBody>
-                  <Heading size="md">{job.title}</Heading>
-                  <Text mt={2}>{job.category}</Text>
+                  <Heading size="md">{job.jobs_title}</Heading>
+                  <Text mt={2}>{job.job_area}</Text>
                 </CardBody>
               </Card>
             </Link>
